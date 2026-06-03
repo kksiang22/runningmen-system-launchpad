@@ -7,7 +7,7 @@ A simple internal launchpad for staff to access company systems.
 - AP: https://ap.runningmen.my
 - Claims: https://claims.runningmen.my
 - 4D: https://4d.runningmen.my
-- Singsong: https://singsong.runningmen.my
+- Chingchong: https://chingchong.runningmen.my
 
 ## Local run
 
