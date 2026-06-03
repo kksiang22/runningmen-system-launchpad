@@ -690,6 +690,7 @@
   <script>
     const bgMusic = document.getElementById("bgMusic");
     const clickSound = document.getElementById("clickSound");
+    const clickFx = new Audio(clickSound.src);
     let musicStarted = false;
 
     function startBackgroundMusic(){
@@ -706,14 +707,17 @@
     }
 
     function playClickSound(){
-      if(!clickSound) return;
+      if(!clickFx) return;
 
-      const sound = clickSound.cloneNode(true);
-      sound.volume = 0.55;
-      sound.play().catch(() => {});
+      clickFx.currentTime = 0;
+      clickFx.volume = 0.55;
+      clickFx.play().catch(() => {});
     }
 
     window.addEventListener("load", startBackgroundMusic);
+    window.addEventListener("load", () => {
+      clickFx.load();
+    });
     document.addEventListener("pointerdown", startBackgroundMusic, { once: true });
     document.addEventListener("keydown", startBackgroundMusic, { once: true });
 
