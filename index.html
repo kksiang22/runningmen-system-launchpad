@@ -313,7 +313,7 @@
     .grid{
       margin-top:20px;
       display:grid;
-      grid-template-columns:repeat(4,1fr);
+      grid-template-columns:repeat(5,1fr);
       gap:18px;
     }
 
@@ -336,6 +336,7 @@
     .card:nth-child(2){animation-delay:.22s}
     .card:nth-child(3){animation-delay:.32s}
     .card:nth-child(4){animation-delay:.42s}
+    .card:nth-child(5){animation-delay:.52s}
 
     .card:hover{
       background:rgba(255,255,255,.085);
@@ -599,6 +600,7 @@
           <span class="kbd">2</span>
           <span class="kbd">3</span>
           <span class="kbd">4</span>
+          <span class="kbd">5</span>
         </div>
       </div>
     </section>
@@ -659,6 +661,20 @@
           <button class="copy" type="button" aria-label="Copy Chingchong link"><span>⧉</span></button>
         </div>
       </article>
+
+      <article class="card" data-name="singsong singing song event entertainment" data-url="https://singsong.runningmen.my">
+        <div class="card-top">
+          <div class="icon">🎵</div>
+          <div class="shortcut"><span class="kbd">5</span> Singsong</div>
+        </div>
+        <h2>Singsong</h2>
+        <div class="description">Singsong internal system access.</div>
+        <div class="domain">singsong.runningmen.my</div>
+        <div class="card-actions">
+          <a class="open" href="https://singsong.runningmen.my" target="_blank" rel="noopener"><span>Open Singsong →</span></a>
+          <button class="copy" type="button" aria-label="Copy Singsong link"><span>⧉</span></button>
+        </div>
+      </article>
     </section>
 
     <footer class="footer">
@@ -674,7 +690,8 @@
       "https://ap.runningmen.my",
       "https://claims.runningmen.my",
       "https://4d.runningmen.my",
-      "https://chingchong.runningmen.my"
+      "https://chingchong.runningmen.my",
+      "https://singsong.runningmen.my"
     ];
 
     const cursorGlow = document.getElementById("cursorGlow");
