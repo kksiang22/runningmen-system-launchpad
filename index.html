@@ -684,7 +684,7 @@
   </main>
 
   <div class="toast" id="toast">Copied link</div>
-  <audio id="bgMusic" src="background-music.mp3" loop preload="auto"></audio>
+  <audio id="bgMusic" src="background-music.mp3" loop preload="auto" autoplay playsinline></audio>
 
   <script>
     const bgMusic = document.getElementById("bgMusic");
@@ -704,8 +704,6 @@
     }
 
     window.addEventListener("load", startBackgroundMusic);
-    document.addEventListener("pointerdown", startBackgroundMusic, { once: true });
-    document.addEventListener("keydown", startBackgroundMusic, { once: true });
 
     const links = [
       "https://ap.runningmen.my",
