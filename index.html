@@ -685,9 +685,11 @@
 
   <div class="toast" id="toast">Copied link</div>
   <audio id="bgMusic" src="background-music.mp3" loop preload="auto" autoplay playsinline></audio>
+  <audio id="clickSound" src="click-sound.mp3" preload="auto"></audio>
 
   <script>
     const bgMusic = document.getElementById("bgMusic");
+    const clickSound = document.getElementById("clickSound");
     let musicStarted = false;
 
     function startBackgroundMusic(){
@@ -701,6 +703,14 @@
         .catch(() => {
           // Browsers may block autoplay until the user interacts with the page.
         });
+    }
+
+    function playClickSound(){
+      if(!clickSound) return;
+
+      const sound = clickSound.cloneNode(true);
+      sound.volume = 0.55;
+      sound.play().catch(() => {});
     }
 
     window.addEventListener("load", startBackgroundMusic);
@@ -838,6 +848,7 @@
 
     document.querySelectorAll(".copy").forEach(button => {
       button.addEventListener("click", async () => {
+        playClickSound();
         const card = button.closest(".card");
         const url = card.dataset.url;
 
@@ -847,6 +858,19 @@
         }catch(error){
           showToast("Copy failed");
         }
+      });
+    });
+
+    document.querySelectorAll(".open").forEach(button => {
+      button.addEventListener("click", () => {
+        playClickSound();
+      });
+    });
+
+    document.querySelectorAll(".card").forEach(card => {
+      card.addEventListener("pointerdown", (event) => {
+        if(event.target.closest("a,button")) return;
+        playClickSound();
       });
     });
 
