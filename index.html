@@ -684,8 +684,29 @@
   </main>
 
   <div class="toast" id="toast">Copied link</div>
+  <audio id="bgMusic" src="background-music.mp3" loop preload="auto"></audio>
 
   <script>
+    const bgMusic = document.getElementById("bgMusic");
+    let musicStarted = false;
+
+    function startBackgroundMusic(){
+      if(musicStarted) return;
+
+      bgMusic.volume = 0.35;
+      bgMusic.play()
+        .then(() => {
+          musicStarted = true;
+        })
+        .catch(() => {
+          // Browsers may block autoplay until the user interacts with the page.
+        });
+    }
+
+    window.addEventListener("load", startBackgroundMusic);
+    document.addEventListener("pointerdown", startBackgroundMusic, { once: true });
+    document.addEventListener("keydown", startBackgroundMusic, { once: true });
+
     const links = [
       "https://ap.runningmen.my",
       "https://claims.runningmen.my",
