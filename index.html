@@ -704,6 +704,8 @@
     }
 
     window.addEventListener("load", startBackgroundMusic);
+    document.addEventListener("pointerdown", startBackgroundMusic, { once: true });
+    document.addEventListener("keydown", startBackgroundMusic, { once: true });
 
     const links = [
       "https://ap.runningmen.my",
