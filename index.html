@@ -1,0 +1,828 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>RunningMen Systems</title>
+  <style>
+    :root{
+      --bg:#070604;
+      --panel:#13100b;
+      --panel-soft:rgba(255,255,255,.065);
+      --panel-hover:rgba(255,255,255,.105);
+      --text:#fff8e8;
+      --muted:#c8bda2;
+      --muted2:#8d826d;
+      --line:rgba(255,184,0,.18);
+      --line-strong:rgba(255,184,0,.36);
+      --orange:#f6a000;
+      --yellow:#ffe000;
+      --green:#42efb2;
+      --red:#ff7474;
+      --shadow:0 26px 90px rgba(0,0,0,.44);
+      --radius:30px;
+    }
+
+    *{box-sizing:border-box;margin:0;padding:0}
+
+    html{scroll-behavior:smooth}
+
+    body{
+      min-height:100vh;
+      font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+      color:var(--text);
+      background:
+        radial-gradient(circle at 15% 10%, rgba(255,224,0,.16), transparent 28%),
+        radial-gradient(circle at 88% 12%, rgba(246,160,0,.19), transparent 34%),
+        radial-gradient(circle at 50% 115%, rgba(66,239,178,.08), transparent 34%),
+        linear-gradient(135deg,#070604,#15110a 52%,#070604);
+      overflow-x:hidden;
+    }
+
+    body::before{
+      content:"";
+      position:fixed;
+      inset:0;
+      pointer-events:none;
+      z-index:-5;
+      background-image:
+        linear-gradient(rgba(255,184,0,.035) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,184,0,.035) 1px, transparent 1px);
+      background-size:56px 56px;
+      mask-image:radial-gradient(circle at center,#000,transparent 82%);
+      animation:gridMove 18s linear infinite;
+    }
+
+    @keyframes gridMove{
+      to{background-position:56px 56px,56px 56px}
+    }
+
+    canvas{
+      position:fixed;
+      inset:0;
+      z-index:-4;
+      pointer-events:none;
+    }
+
+    .cursor-glow{
+      position:fixed;
+      width:540px;
+      height:540px;
+      border-radius:999px;
+      background:radial-gradient(circle,rgba(246,160,0,.13),transparent 64%);
+      transform:translate(-50%,-50%);
+      pointer-events:none;
+      z-index:-3;
+    }
+
+    .shell{
+      width:min(1080px, calc(100% - 32px));
+      margin:auto;
+      padding:24px 0 44px;
+    }
+
+    .topbar{
+      position:sticky;
+      top:16px;
+      z-index:30;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:16px;
+      padding:14px 16px;
+      border-radius:999px;
+      border:1px solid var(--line);
+      background:rgba(19,16,11,.74);
+      backdrop-filter:blur(20px);
+      box-shadow:var(--shadow);
+      animation:drop .7s ease both;
+    }
+
+    @keyframes drop{
+      from{opacity:0;transform:translateY(-16px)}
+      to{opacity:1;transform:translateY(0)}
+    }
+
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:12px;
+      min-width:max-content;
+    }
+
+    .brand-mark{
+      width:46px;
+      height:46px;
+      border-radius:17px;
+      display:grid;
+      place-items:center;
+      color:#1a1200;
+      font-weight:1000;
+      background:linear-gradient(135deg,var(--orange),var(--yellow));
+      box-shadow:0 0 34px rgba(255,224,0,.18);
+      letter-spacing:-.06em;
+    }
+
+    .brand-title{
+      font-size:18px;
+      font-weight:1000;
+      letter-spacing:-.045em;
+      line-height:1.05;
+    }
+
+    .brand-sub{
+      margin-top:3px;
+      font-size:12px;
+      color:var(--muted);
+    }
+
+    .top-actions{
+      display:flex;
+      align-items:center;
+      gap:10px;
+    }
+
+    .status{
+      display:flex;
+      align-items:center;
+      gap:8px;
+      white-space:nowrap;
+      color:#d4ffef;
+      font-size:12px;
+      font-weight:950;
+      border:1px solid rgba(66,239,178,.2);
+      background:rgba(66,239,178,.08);
+      padding:10px 13px;
+      border-radius:999px;
+    }
+
+    .status span{
+      width:9px;
+      height:9px;
+      border-radius:999px;
+      background:var(--green);
+      animation:pulse 1.5s infinite;
+    }
+
+    @keyframes pulse{
+      0%{box-shadow:0 0 0 0 rgba(66,239,178,.65)}
+      70%{box-shadow:0 0 0 11px rgba(66,239,178,0)}
+    }
+
+    .search{
+      width:220px;
+      height:40px;
+      border-radius:999px;
+      border:1px solid rgba(255,184,0,.16);
+      background:rgba(255,255,255,.055);
+      color:var(--text);
+      outline:none;
+      padding:0 14px;
+      transition:.22s ease;
+    }
+
+    .search::placeholder{color:var(--muted2)}
+
+    .search:focus{
+      border-color:var(--line-strong);
+      box-shadow:0 0 0 4px rgba(255,184,0,.08);
+    }
+
+    .hero{
+      margin-top:24px;
+      padding:34px;
+      border-radius:34px;
+      border:1px solid var(--line);
+      background:
+        radial-gradient(circle at 85% 20%, rgba(255,224,0,.10), transparent 30%),
+        linear-gradient(135deg, rgba(19,16,11,.96), rgba(19,16,11,.76));
+      box-shadow:var(--shadow);
+      position:relative;
+      overflow:hidden;
+      animation:rise .75s ease .08s both;
+    }
+
+    .hero::before{
+      content:"";
+      position:absolute;
+      inset:-2px;
+      background:conic-gradient(from 180deg, transparent, rgba(246,160,0,.28), transparent, rgba(255,224,0,.20), transparent);
+      opacity:.16;
+      animation:spin 8s linear infinite;
+    }
+
+    .hero::after{
+      content:"";
+      position:absolute;
+      inset:1px;
+      border-radius:33px;
+      background:
+        radial-gradient(circle at 78% 16%, rgba(255,224,0,.075), transparent 28%),
+        linear-gradient(135deg, rgba(19,16,11,.98), rgba(19,16,11,.82));
+    }
+
+    .hero > *{position:relative;z-index:1}
+
+    @keyframes spin{to{transform:rotate(360deg)}}
+    @keyframes rise{
+      from{opacity:0;transform:translateY(22px)}
+      to{opacity:1;transform:translateY(0)}
+    }
+
+    .eyebrow{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding:9px 13px;
+      border-radius:999px;
+      border:1px solid rgba(255,184,0,.22);
+      background:rgba(255,184,0,.07);
+      color:#ffe7a5;
+      font-size:13px;
+      font-weight:900;
+      margin-bottom:18px;
+    }
+
+    .eyebrow span{
+      width:9px;
+      height:9px;
+      border-radius:999px;
+      background:var(--yellow);
+      box-shadow:0 0 16px rgba(255,224,0,.72);
+    }
+
+    h1{
+      font-size:clamp(40px, 6vw, 76px);
+      line-height:.92;
+      letter-spacing:-.08em;
+      margin-bottom:16px;
+      max-width:760px;
+    }
+
+    .glow{
+      background:linear-gradient(90deg,#fff8e8,var(--yellow),var(--orange),#fff8e8);
+      background-size:230% auto;
+      -webkit-background-clip:text;
+      background-clip:text;
+      color:transparent;
+      animation:shine 4.8s linear infinite;
+    }
+
+    @keyframes shine{to{background-position:230% center}}
+
+    .hero-row{
+      display:flex;
+      justify-content:space-between;
+      align-items:flex-end;
+      gap:20px;
+      flex-wrap:wrap;
+    }
+
+    .hero p{
+      max-width:680px;
+      color:var(--muted);
+      line-height:1.7;
+      font-size:16px;
+    }
+
+    .hint{
+      display:flex;
+      align-items:center;
+      gap:8px;
+      color:var(--muted);
+      font-size:13px;
+      border:1px solid rgba(255,184,0,.14);
+      background:rgba(255,255,255,.045);
+      padding:10px 12px;
+      border-radius:999px;
+      white-space:nowrap;
+    }
+
+    .kbd{
+      display:inline-grid;
+      place-items:center;
+      min-width:25px;
+      height:25px;
+      border-radius:8px;
+      color:#1a1200;
+      background:linear-gradient(135deg,var(--orange),var(--yellow));
+      font-weight:950;
+      font-size:12px;
+    }
+
+    .grid{
+      margin-top:20px;
+      display:grid;
+      grid-template-columns:repeat(4,1fr);
+      gap:18px;
+    }
+
+    .card{
+      position:relative;
+      min-height:318px;
+      padding:22px;
+      border-radius:30px;
+      border:1px solid var(--line);
+      background:rgba(19,16,11,.66);
+      backdrop-filter:blur(18px);
+      box-shadow:0 22px 80px rgba(0,0,0,.32);
+      overflow:hidden;
+      transition:transform .22s ease, border-color .22s ease, box-shadow .22s ease, background .22s ease;
+      animation:rise .75s ease both;
+      transform-style:preserve-3d;
+    }
+
+    .card:nth-child(1){animation-delay:.12s}
+    .card:nth-child(2){animation-delay:.22s}
+    .card:nth-child(3){animation-delay:.32s}
+    .card:nth-child(4){animation-delay:.42s}
+
+    .card:hover{
+      background:rgba(255,255,255,.085);
+      border-color:rgba(255,184,0,.48);
+      box-shadow:0 30px 90px rgba(0,0,0,.36),0 0 42px rgba(246,160,0,.12);
+    }
+
+    .card::before{
+      content:"";
+      position:absolute;
+      inset:0;
+      background:radial-gradient(circle at var(--x,50%) var(--y,50%), rgba(255,184,0,.18), transparent 35%);
+      opacity:0;
+      transition:.24s ease;
+    }
+
+    .card:hover::before{opacity:1}
+
+    .card-top{
+      position:relative;
+      display:flex;
+      align-items:flex-start;
+      justify-content:space-between;
+      gap:14px;
+      margin-bottom:20px;
+      transform:translateZ(26px);
+    }
+
+    .icon{
+      width:68px;
+      height:68px;
+      border-radius:24px;
+      display:grid;
+      place-items:center;
+      font-size:30px;
+      border:1px solid rgba(255,184,0,.18);
+      background:rgba(255,184,0,.08);
+    }
+
+    .shortcut{
+      display:flex;
+      align-items:center;
+      gap:6px;
+      color:var(--muted);
+      font-size:12px;
+      padding:8px 9px;
+      border-radius:999px;
+      border:1px solid rgba(255,184,0,.12);
+      background:rgba(255,255,255,.045);
+    }
+
+    .card h2{
+      position:relative;
+      font-size:25px;
+      letter-spacing:-.045em;
+      margin-bottom:8px;
+      transform:translateZ(18px);
+    }
+
+    .description{
+      position:relative;
+      color:var(--muted);
+      font-size:14px;
+      line-height:1.55;
+      margin-bottom:14px;
+      transform:translateZ(14px);
+    }
+
+    .domain{
+      position:relative;
+      display:inline-flex;
+      max-width:100%;
+      color:#f2dfb7;
+      font-family:ui-monospace,SFMono-Regular,Menlo,monospace;
+      font-size:12px;
+      border:1px solid rgba(255,255,255,.10);
+      background:rgba(0,0,0,.22);
+      border-radius:12px;
+      padding:8px 10px;
+      overflow:hidden;
+      text-overflow:ellipsis;
+      white-space:nowrap;
+      transform:translateZ(14px);
+    }
+
+    .card-actions{
+      position:absolute;
+      left:22px;
+      right:22px;
+      bottom:22px;
+      display:grid;
+      grid-template-columns:1fr 46px;
+      gap:10px;
+      transform:translateZ(26px);
+    }
+
+    .open,
+    .copy{
+      min-height:48px;
+      border-radius:17px;
+      border:0;
+      text-decoration:none;
+      font-weight:950;
+      cursor:pointer;
+      position:relative;
+      overflow:hidden;
+      transition:.25s ease;
+    }
+
+    .open{
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      color:#1a1200;
+      background:linear-gradient(135deg,var(--orange),var(--yellow));
+      box-shadow:0 18px 42px rgba(246,160,0,.18);
+    }
+
+    .copy{
+      display:grid;
+      place-items:center;
+      color:var(--text);
+      border:1px solid rgba(255,184,0,.16);
+      background:rgba(255,255,255,.065);
+      font-size:17px;
+    }
+
+    .open::before,
+    .copy::before{
+      content:"";
+      position:absolute;
+      inset:-40%;
+      background:linear-gradient(120deg,transparent,rgba(255,255,255,.70),transparent);
+      transform:translateX(-100%) rotate(20deg);
+      transition:.65s ease;
+    }
+
+    .open:hover,
+    .copy:hover{
+      transform:translateY(-3px);
+    }
+
+    .open:hover::before,
+    .copy:hover::before{
+      transform:translateX(100%) rotate(20deg);
+    }
+
+    .open span,
+    .copy span{position:relative}
+
+    .toast{
+      position:fixed;
+      left:50%;
+      bottom:24px;
+      z-index:60;
+      transform:translate(-50%,20px);
+      opacity:0;
+      pointer-events:none;
+      color:#1a1200;
+      background:linear-gradient(135deg,var(--orange),var(--yellow));
+      border-radius:999px;
+      padding:12px 16px;
+      font-weight:950;
+      box-shadow:0 18px 55px rgba(0,0,0,.35);
+      transition:.25s ease;
+    }
+
+    .toast.show{
+      transform:translate(-50%,0);
+      opacity:1;
+    }
+
+    .footer{
+      padding:24px 4px 0;
+      display:flex;
+      justify-content:space-between;
+      gap:12px;
+      flex-wrap:wrap;
+      color:var(--muted);
+      font-size:13px;
+    }
+
+    .hidden{display:none!important}
+
+    @media(max-width:1050px){
+      .grid{grid-template-columns:repeat(2,1fr)}
+      .topbar{
+        border-radius:26px;
+        align-items:flex-start;
+        flex-direction:column;
+      }
+      .top-actions{
+        width:100%;
+      }
+      .search{
+        flex:1;
+        width:100%;
+      }
+    }
+
+    @media(max-width:720px){
+      .shell{width:min(100% - 24px,1080px)}
+      .hero{padding:26px 22px}
+      .grid{grid-template-columns:1fr}
+      .hero-row{align-items:flex-start}
+      .hint{white-space:normal}
+    }
+
+    @media(prefers-reduced-motion:reduce){
+      *,*::before,*::after{
+        animation-duration:.01ms !important;
+        animation-iteration-count:1 !important;
+        transition-duration:.01ms !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <canvas id="particles"></canvas>
+  <div class="cursor-glow" id="cursorGlow"></div>
+
+  <main class="shell">
+    <header class="topbar">
+      <div class="brand">
+        <div class="brand-mark">RM</div>
+        <div>
+          <div class="brand-title">RunningMen Systems</div>
+          <div class="brand-sub">Direct access to internal systems</div>
+        </div>
+      </div>
+
+      <div class="top-actions">
+        <input id="search" class="search" type="search" placeholder="Search system..." />
+        <div class="status"><span></span> LINKS READY</div>
+      </div>
+    </header>
+
+    <section class="hero">
+      <div class="eyebrow"><span></span> Internal launchpad</div>
+      <h1>Choose a <span class="glow">system</span> to open.</h1>
+
+      <div class="hero-row">
+        <p>
+          One simple page for staff. Click a system below and login inside that website.
+        </p>
+
+        <div class="hint">
+          Keyboard shortcut:
+          <span class="kbd">1</span>
+          <span class="kbd">2</span>
+          <span class="kbd">3</span>
+          <span class="kbd">4</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="grid" id="systemGrid">
+      <article class="card" data-name="ap invoice supplier finance bukku" data-url="https://ap.runningmen.my">
+        <div class="card-top">
+          <div class="icon">📄</div>
+          <div class="shortcut"><span class="kbd">1</span> AP</div>
+        </div>
+        <h2>AP</h2>
+        <div class="description">Supplier invoice and finance approval system.</div>
+        <div class="domain">ap.runningmen.my</div>
+        <div class="card-actions">
+          <a class="open" href="https://ap.runningmen.my" target="_blank" rel="noopener"><span>Open AP →</span></a>
+          <button class="copy" type="button" aria-label="Copy AP link"><span>⧉</span></button>
+        </div>
+      </article>
+
+      <article class="card" data-name="claims claim staff payment approval" data-url="https://claims.runningmen.my">
+        <div class="card-top">
+          <div class="icon">🧾</div>
+          <div class="shortcut"><span class="kbd">2</span> Claims</div>
+        </div>
+        <h2>Claims</h2>
+        <div class="description">Staff claim submission, approval and tracking.</div>
+        <div class="domain">claims.runningmen.my</div>
+        <div class="card-actions">
+          <a class="open" href="https://claims.runningmen.my" target="_blank" rel="noopener"><span>Open Claims →</span></a>
+          <button class="copy" type="button" aria-label="Copy Claims link"><span>⧉</span></button>
+        </div>
+      </article>
+
+      <article class="card" data-name="4d dashboard report management pnl" data-url="https://4d.runningmen.my">
+        <div class="card-top">
+          <div class="icon">📊</div>
+          <div class="shortcut"><span class="kbd">3</span> 4D</div>
+        </div>
+        <h2>4D</h2>
+        <div class="description">Dashboard and reporting system.</div>
+        <div class="domain">4d.runningmen.my</div>
+        <div class="card-actions">
+          <a class="open" href="https://4d.runningmen.my" target="_blank" rel="noopener"><span>Open 4D →</span></a>
+          <button class="copy" type="button" aria-label="Copy 4D link"><span>⧉</span></button>
+        </div>
+      </article>
+
+      <article class="card" data-name="singsong singing song event entertainment" data-url="https://singsong.runningmen.my">
+        <div class="card-top">
+          <div class="icon">🎵</div>
+          <div class="shortcut"><span class="kbd">4</span> Singsong</div>
+        </div>
+        <h2>Singsong</h2>
+        <div class="description">Singsong internal system access.</div>
+        <div class="domain">singsong.runningmen.my</div>
+        <div class="card-actions">
+          <a class="open" href="https://singsong.runningmen.my" target="_blank" rel="noopener"><span>Open Singsong →</span></a>
+          <button class="copy" type="button" aria-label="Copy Singsong link"><span>⧉</span></button>
+        </div>
+      </article>
+    </section>
+
+    <footer class="footer">
+      <div>© RunningMen Internal Systems</div>
+      <div id="clock"></div>
+    </footer>
+  </main>
+
+  <div class="toast" id="toast">Copied link</div>
+
+  <script>
+    const links = [
+      "https://ap.runningmen.my",
+      "https://claims.runningmen.my",
+      "https://4d.runningmen.my",
+      "https://singsong.runningmen.my"
+    ];
+
+    const cursorGlow = document.getElementById("cursorGlow");
+    window.addEventListener("mousemove", (e) => {
+      cursorGlow.style.left = e.clientX + "px";
+      cursorGlow.style.top = e.clientY + "px";
+    });
+
+    const canvas = document.getElementById("particles");
+    const ctx = canvas.getContext("2d");
+    let particles = [];
+    let mouse = { x: null, y: null };
+
+    function resizeCanvas(){
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+      const count = Math.min(78, Math.floor((canvas.width * canvas.height) / 20500));
+      particles = Array.from({ length: count }, () => ({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height,
+        vx: (Math.random() - 0.5) * 0.38,
+        vy: (Math.random() - 0.5) * 0.38,
+        r: Math.random() * 1.35 + 0.5
+      }));
+    }
+
+    resizeCanvas();
+    window.addEventListener("resize", resizeCanvas);
+    window.addEventListener("mousemove", e => {
+      mouse.x = e.clientX;
+      mouse.y = e.clientY;
+    });
+
+    function draw(){
+      ctx.clearRect(0,0,canvas.width,canvas.height);
+
+      particles.forEach(p => {
+        p.x += p.vx;
+        p.y += p.vy;
+
+        if(p.x < 0 || p.x > canvas.width) p.vx *= -1;
+        if(p.y < 0 || p.y > canvas.height) p.vy *= -1;
+
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+        ctx.fillStyle = "rgba(255,184,0,.38)";
+        ctx.fill();
+      });
+
+      for(let i=0;i<particles.length;i++){
+        for(let j=i+1;j<particles.length;j++){
+          const a = particles[i];
+          const b = particles[j];
+          const dx = a.x - b.x;
+          const dy = a.y - b.y;
+          const dist = Math.sqrt(dx*dx + dy*dy);
+
+          if(dist < 120){
+            ctx.beginPath();
+            ctx.moveTo(a.x, a.y);
+            ctx.lineTo(b.x, b.y);
+            ctx.strokeStyle = `rgba(255,184,0,${0.10 * (1 - dist / 120)})`;
+            ctx.lineWidth = 1;
+            ctx.stroke();
+          }
+        }
+
+        if(mouse.x !== null){
+          const p = particles[i];
+          const dx = p.x - mouse.x;
+          const dy = p.y - mouse.y;
+          const dist = Math.sqrt(dx*dx + dy*dy);
+
+          if(dist < 165){
+            ctx.beginPath();
+            ctx.moveTo(p.x, p.y);
+            ctx.lineTo(mouse.x, mouse.y);
+            ctx.strokeStyle = `rgba(255,224,0,${0.15 * (1 - dist / 165)})`;
+            ctx.lineWidth = 1;
+            ctx.stroke();
+          }
+        }
+      }
+
+      requestAnimationFrame(draw);
+    }
+    draw();
+
+    const cards = document.querySelectorAll(".card");
+    cards.forEach(card => {
+      card.addEventListener("mousemove", (event) => {
+        const rect = card.getBoundingClientRect();
+        const x = event.clientX - rect.left;
+        const y = event.clientY - rect.top;
+        card.style.setProperty("--x", x + "px");
+        card.style.setProperty("--y", y + "px");
+
+        const rotateY = ((x / rect.width) - 0.5) * 7;
+        const rotateX = ((y / rect.height) - 0.5) * -7;
+        card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-5px)`;
+      });
+
+      card.addEventListener("mouseleave", () => {
+        card.style.transform = "";
+      });
+    });
+
+    const search = document.getElementById("search");
+    search.addEventListener("input", () => {
+      const q = search.value.toLowerCase().trim();
+      cards.forEach(card => {
+        const name = card.dataset.name.toLowerCase();
+        card.classList.toggle("hidden", q && !name.includes(q));
+      });
+    });
+
+    const toast = document.getElementById("toast");
+    function showToast(text){
+      toast.textContent = text;
+      toast.classList.add("show");
+      setTimeout(() => toast.classList.remove("show"), 1400);
+    }
+
+    document.querySelectorAll(".copy").forEach(button => {
+      button.addEventListener("click", async () => {
+        const card = button.closest(".card");
+        const url = card.dataset.url;
+
+        try{
+          await navigator.clipboard.writeText(url);
+          showToast("Copied: " + url.replace("https://", ""));
+        }catch(error){
+          showToast("Copy failed");
+        }
+      });
+    });
+
+    window.addEventListener("keydown", (event) => {
+      if(event.target.matches("input, textarea")) return;
+
+      const index = Number(event.key) - 1;
+      if(index >= 0 && index < links.length){
+        window.open(links[index], "_blank", "noopener");
+      }
+    });
+
+    function tick(){
+      document.getElementById("clock").textContent = new Date().toLocaleString("en-MY",{
+        weekday:"short",
+        day:"2-digit",
+        month:"short",
+        year:"numeric",
+        hour:"2-digit",
+        minute:"2-digit"
+      });
+    }
+
+    tick();
+    setInterval(tick, 30000);
+  </script>
+</body>
+</html>

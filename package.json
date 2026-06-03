@@ -1,0 +1,16 @@
+{
+  "name": "runningmen-system-launchpad",
+  "version": "1.0.0",
+  "description": "Simple RunningMen internal system launchpad with direct links.",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.19.2"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
