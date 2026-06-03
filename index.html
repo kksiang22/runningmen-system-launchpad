@@ -76,7 +76,7 @@
     }
 
     .shell{
-      width:min(1080px, calc(100% - 32px));
+      width:min(1280px, calc(100% - 32px));
       margin:auto;
       padding:24px 0 44px;
     }
@@ -427,7 +427,7 @@
       right:22px;
       bottom:22px;
       display:grid;
-      grid-template-columns:1fr 46px;
+      grid-template-columns:minmax(0, 1fr) 46px;
       gap:10px;
       transform:translateZ(26px);
     }
@@ -439,6 +439,8 @@
       border:0;
       text-decoration:none;
       font-weight:950;
+      font-size:15px;
+      line-height:1;
       cursor:pointer;
       position:relative;
       overflow:hidden;
@@ -449,6 +451,8 @@
       display:flex;
       justify-content:center;
       align-items:center;
+      min-width:0;
+      padding:0 14px;
       color:#1a1200;
       background:linear-gradient(135deg,var(--orange),var(--yellow));
       box-shadow:0 18px 42px rgba(246,160,0,.18);
@@ -485,6 +489,13 @@
 
     .open span,
     .copy span{position:relative}
+
+    .open span{
+      max-width:100%;
+      overflow:hidden;
+      text-overflow:ellipsis;
+      white-space:nowrap;
+    }
 
     .toast{
       position:fixed;
