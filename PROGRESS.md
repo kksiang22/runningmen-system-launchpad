@@ -6,3 +6,9 @@
 - Renumbered keyboard shortcuts 1-6 and reordered JS links array to match new layout.
 - Search now hides empty category headers. Synced README systems list.
 - Files changed: index.html, README.md. Commit: ec2d016.
+
+## 2026-06-16 ~3:00pm GMT+8 — Finance section green accent
+- Gave the Finance section a green accent (header, card borders, hover glow,
+  icons, shortcut badges, Open buttons, copy outline), scoped to
+  [data-category="finance"]. General keeps the orange/yellow theme.
+- Files changed: index.html.
