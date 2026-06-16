@@ -8,6 +8,8 @@ A simple internal launchpad for staff to access company systems.
 - Claims: https://claims.runningmen.my
 - 4D: https://4d.runningmen.my
 - Chingchong: https://chingchong.runningmen.my
+- Singsong: https://singsong.runningmen.my
+- Swipey: https://swipey.runningmen.my
 
 ## Local run
 

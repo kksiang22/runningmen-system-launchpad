@@ -310,10 +310,43 @@
       font-size:12px;
     }
 
+    .category{
+      margin-top:30px;
+    }
+
+    .category-head{
+      display:flex;
+      align-items:center;
+      gap:14px;
+      padding:0 4px;
+    }
+
+    .category-title{
+      font-size:14px;
+      font-weight:1000;
+      letter-spacing:.18em;
+      text-transform:uppercase;
+      color:#ffe7a5;
+      white-space:nowrap;
+    }
+
+    .category-line{
+      flex:1;
+      height:1px;
+      background:linear-gradient(90deg,var(--line-strong),transparent);
+    }
+
+    .category-count{
+      font-size:12px;
+      font-weight:900;
+      color:var(--muted2);
+      white-space:nowrap;
+    }
+
     .grid{
-      margin-top:20px;
+      margin-top:16px;
       display:grid;
-      grid-template-columns:repeat(5,1fr);
+      grid-template-columns:repeat(3,1fr);
       gap:18px;
     }
 
@@ -337,6 +370,7 @@
     .card:nth-child(3){animation-delay:.32s}
     .card:nth-child(4){animation-delay:.42s}
     .card:nth-child(5){animation-delay:.52s}
+    .card:nth-child(6){animation-delay:.62s}
 
     .card:hover{
       background:rgba(255,255,255,.085);
@@ -601,80 +635,113 @@
           <span class="kbd">3</span>
           <span class="kbd">4</span>
           <span class="kbd">5</span>
+          <span class="kbd">6</span>
         </div>
       </div>
     </section>
 
-    <section class="grid" id="systemGrid">
-      <article class="card" data-name="ap invoice supplier finance bukku" data-url="https://ap.runningmen.my">
-        <div class="card-top">
-          <div class="icon">📄</div>
-          <div class="shortcut"><span class="kbd">1</span> AP</div>
-        </div>
-        <h2>AP</h2>
-        <div class="description">Supplier invoice and finance approval system.</div>
-        <div class="domain">ap.runningmen.my</div>
-        <div class="card-actions">
-          <a class="open" href="https://ap.runningmen.my" target="_blank" rel="noopener"><span>Open AP →</span></a>
-          <button class="copy" type="button" aria-label="Copy AP link"><span>⧉</span></button>
-        </div>
-      </article>
+    <section class="category" data-category="finance">
+      <div class="category-head">
+        <div class="category-title">Finance</div>
+        <div class="category-line"></div>
+        <div class="category-count">3 systems</div>
+      </div>
 
-      <article class="card" data-name="claims claim staff payment approval" data-url="https://claims.runningmen.my">
-        <div class="card-top">
-          <div class="icon">🧾</div>
-          <div class="shortcut"><span class="kbd">2</span> Claims</div>
-        </div>
-        <h2>Claims</h2>
-        <div class="description">Staff claim submission, approval and tracking.</div>
-        <div class="domain">claims.runningmen.my</div>
-        <div class="card-actions">
-          <a class="open" href="https://claims.runningmen.my" target="_blank" rel="noopener"><span>Open Claims →</span></a>
-          <button class="copy" type="button" aria-label="Copy Claims link"><span>⧉</span></button>
-        </div>
-      </article>
+      <div class="grid">
+        <article class="card" data-name="ap invoice supplier finance bukku" data-url="https://ap.runningmen.my">
+          <div class="card-top">
+            <div class="icon">📄</div>
+            <div class="shortcut"><span class="kbd">1</span> AP</div>
+          </div>
+          <h2>AP</h2>
+          <div class="description">Supplier invoice and finance approval system.</div>
+          <div class="domain">ap.runningmen.my</div>
+          <div class="card-actions">
+            <a class="open" href="https://ap.runningmen.my" target="_blank" rel="noopener"><span>Open AP →</span></a>
+            <button class="copy" type="button" aria-label="Copy AP link"><span>⧉</span></button>
+          </div>
+        </article>
 
-      <article class="card" data-name="4d dashboard report management pnl" data-url="https://4d.runningmen.my">
-        <div class="card-top">
-          <div class="icon">📊</div>
-          <div class="shortcut"><span class="kbd">3</span> 4D</div>
-        </div>
-        <h2>4D</h2>
-        <div class="description">Dashboard and reporting system.</div>
-        <div class="domain">4d.runningmen.my</div>
-        <div class="card-actions">
-          <a class="open" href="https://4d.runningmen.my" target="_blank" rel="noopener"><span>Open 4D →</span></a>
-          <button class="copy" type="button" aria-label="Copy 4D link"><span>⧉</span></button>
-        </div>
-      </article>
+        <article class="card" data-name="4d dashboard report management pnl" data-url="https://4d.runningmen.my">
+          <div class="card-top">
+            <div class="icon">📊</div>
+            <div class="shortcut"><span class="kbd">2</span> 4D</div>
+          </div>
+          <h2>4D</h2>
+          <div class="description">Dashboard and reporting system.</div>
+          <div class="domain">4d.runningmen.my</div>
+          <div class="card-actions">
+            <a class="open" href="https://4d.runningmen.my" target="_blank" rel="noopener"><span>Open 4D →</span></a>
+            <button class="copy" type="button" aria-label="Copy 4D link"><span>⧉</span></button>
+          </div>
+        </article>
 
-      <article class="card" data-name="chingchong singing song event entertainment" data-url="https://chingchong.runningmen.my">
-        <div class="card-top">
-          <div class="icon">🎵</div>
-          <div class="shortcut"><span class="kbd">4</span> Chingchong</div>
-        </div>
-        <h2>Chingchong</h2>
-        <div class="description">Chingchong internal system access.</div>
-        <div class="domain">chingchong.runningmen.my</div>
-        <div class="card-actions">
-          <a class="open" href="https://chingchong.runningmen.my" target="_blank" rel="noopener"><span>Open Chingchong →</span></a>
-          <button class="copy" type="button" aria-label="Copy Chingchong link"><span>⧉</span></button>
-        </div>
-      </article>
+        <article class="card" data-name="swipey card expense spending bukku sync corporate" data-url="https://swipey.runningmen.my">
+          <div class="card-top">
+            <div class="icon">💳</div>
+            <div class="shortcut"><span class="kbd">3</span> Swipey</div>
+          </div>
+          <h2>Swipey</h2>
+          <div class="description">Corporate card and expense management.</div>
+          <div class="domain">swipey.runningmen.my</div>
+          <div class="card-actions">
+            <a class="open" href="https://swipey.runningmen.my" target="_blank" rel="noopener"><span>Open Swipey →</span></a>
+            <button class="copy" type="button" aria-label="Copy Swipey link"><span>⧉</span></button>
+          </div>
+        </article>
+      </div>
+    </section>
 
-      <article class="card" data-name="singsong singing song event entertainment" data-url="https://singsong.runningmen.my">
-        <div class="card-top">
-          <div class="icon">🎵</div>
-          <div class="shortcut"><span class="kbd">5</span> Singsong</div>
-        </div>
-        <h2>Singsong</h2>
-        <div class="description">Singsong internal system access.</div>
-        <div class="domain">singsong.runningmen.my</div>
-        <div class="card-actions">
-          <a class="open" href="https://singsong.runningmen.my" target="_blank" rel="noopener"><span>Open Singsong →</span></a>
-          <button class="copy" type="button" aria-label="Copy Singsong link"><span>⧉</span></button>
-        </div>
-      </article>
+    <section class="category" data-category="general">
+      <div class="category-head">
+        <div class="category-title">General</div>
+        <div class="category-line"></div>
+        <div class="category-count">3 systems</div>
+      </div>
+
+      <div class="grid">
+        <article class="card" data-name="claims claim staff payment approval" data-url="https://claims.runningmen.my">
+          <div class="card-top">
+            <div class="icon">🧾</div>
+            <div class="shortcut"><span class="kbd">4</span> Claims</div>
+          </div>
+          <h2>Claims</h2>
+          <div class="description">Staff claim submission, approval and tracking.</div>
+          <div class="domain">claims.runningmen.my</div>
+          <div class="card-actions">
+            <a class="open" href="https://claims.runningmen.my" target="_blank" rel="noopener"><span>Open Claims →</span></a>
+            <button class="copy" type="button" aria-label="Copy Claims link"><span>⧉</span></button>
+          </div>
+        </article>
+
+        <article class="card" data-name="chingchong singing song event entertainment" data-url="https://chingchong.runningmen.my">
+          <div class="card-top">
+            <div class="icon">🎵</div>
+            <div class="shortcut"><span class="kbd">5</span> Chingchong</div>
+          </div>
+          <h2>Chingchong</h2>
+          <div class="description">Chingchong internal system access.</div>
+          <div class="domain">chingchong.runningmen.my</div>
+          <div class="card-actions">
+            <a class="open" href="https://chingchong.runningmen.my" target="_blank" rel="noopener"><span>Open Chingchong →</span></a>
+            <button class="copy" type="button" aria-label="Copy Chingchong link"><span>⧉</span></button>
+          </div>
+        </article>
+
+        <article class="card" data-name="singsong singing song event entertainment" data-url="https://singsong.runningmen.my">
+          <div class="card-top">
+            <div class="icon">🎵</div>
+            <div class="shortcut"><span class="kbd">6</span> Singsong</div>
+          </div>
+          <h2>Singsong</h2>
+          <div class="description">Singsong internal system access.</div>
+          <div class="domain">singsong.runningmen.my</div>
+          <div class="card-actions">
+            <a class="open" href="https://singsong.runningmen.my" target="_blank" rel="noopener"><span>Open Singsong →</span></a>
+            <button class="copy" type="button" aria-label="Copy Singsong link"><span>⧉</span></button>
+          </div>
+        </article>
+      </div>
     </section>
 
     <footer class="footer">
@@ -723,8 +790,9 @@
 
     const links = [
       "https://ap.runningmen.my",
-      "https://claims.runningmen.my",
       "https://4d.runningmen.my",
+      "https://swipey.runningmen.my",
+      "https://claims.runningmen.my",
       "https://chingchong.runningmen.my",
       "https://singsong.runningmen.my"
     ];
@@ -840,6 +908,12 @@
       cards.forEach(card => {
         const name = card.dataset.name.toLowerCase();
         card.classList.toggle("hidden", q && !name.includes(q));
+      });
+
+      document.querySelectorAll(".category").forEach(category => {
+        const hasVisible = [...category.querySelectorAll(".card")]
+          .some(card => !card.classList.contains("hidden"));
+        category.classList.toggle("hidden", !hasVisible);
       });
     });
 
